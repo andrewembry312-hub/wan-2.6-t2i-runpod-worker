@@ -10,7 +10,15 @@
     "gpuCount": 1,
     "gpuIds": "ADA_24,ADA_48,AMPERE_48,NVIDIA_RTX_4090,NVIDIA_L40S,NVIDIA_RTX_6000_ADA",
     "allowedCudaVersions": [
-      "12.8", "12.7", "12.6", "12.5", "12.4", "12.3", "12.2", "12.1", "12.0"
+      "12.8",
+      "12.7",
+      "12.6",
+      "12.5",
+      "12.4",
+      "12.3",
+      "12.2",
+      "12.1",
+      "12.0"
     ],
     "env": [
       {
@@ -40,5 +48,6 @@
         }
       }
     ]
-  }
+  },
+  "iconUrl": "https://pub-796a08821c1c483aaf5e274e0d03e350.r2.dev/studio-jobs/wan-t2i/demo-1.png"
 }
