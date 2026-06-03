@@ -1,0 +1,44 @@
+{
+  "title": "elabs / Wan 2.6 T2I",
+  "description": "Wan 2.6 text-to-image with advanced prompt understanding and high-quality output. Supports multiple aspect ratios, style control, and fast generation. API: POST JSON with {prompt, negative_prompt, width, height, num_inference_steps, guidance_scale, seed} -> {image_b64, prompt, seed, wall_time_s}. GPU: requires >=8GB VRAM (RTX 4090, L40S, A5000+). Based on the Wan 2.6 architecture with enhanced transformer backbone, 2.6B parameters, and native resolution support up to 2048x2048. Runs entirely on RunPod serverless with weights baked into the Docker image.",
+  "type": "serverless",
+  "task": "text-to-image",
+  "category": "image",
+  "config": {
+    "runsOn": "GPU",
+    "containerDiskInGb": 50,
+    "gpuCount": 1,
+    "gpuIds": "ADA_24,ADA_48,AMPERE_48,NVIDIA_RTX_4090,NVIDIA_L40S,NVIDIA_RTX_6000_ADA",
+    "allowedCudaVersions": [
+      "12.8", "12.7", "12.6", "12.5", "12.4", "12.3", "12.2", "12.1", "12.0"
+    ],
+    "env": [
+      {
+        "key": "PYTORCH_CUDA_ALLOC_CONF",
+        "value": "expandable_segments:True"
+      },
+      {
+        "key": "HF_HUB_ENABLE_HF_TRANSFER",
+        "value": "1"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Fast (20 steps)",
+        "defaults": {
+          "NUM_INFERENCE_STEPS": "20",
+          "WIDTH": "1024",
+          "HEIGHT": "1024"
+        }
+      },
+      {
+        "name": "Quality (50 steps)",
+        "defaults": {
+          "NUM_INFERENCE_STEPS": "50",
+          "WIDTH": "1024",
+          "HEIGHT": "1024"
+        }
+      }
+    ]
+  }
+}
