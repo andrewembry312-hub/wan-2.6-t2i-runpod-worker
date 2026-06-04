@@ -1,0 +1,24 @@
+[
+  {
+    "name": "Standard 1024x1024 generation",
+    "input": {
+      "prompt": "A radiant aurora borealis over snow-capped mountains, photorealistic, 8K",
+      "negative_prompt": "blurry, low quality, watermark",
+      "width": 1024,
+      "height": 1024,
+      "num_inference_steps": 20,
+      "guidance_scale": 7.5,
+      "seed": 42
+    }
+  },
+  {
+    "name": "Portrait 768x1344",
+    "input": {
+      "prompt": "A serene forest path in autumn, golden light filtering through trees",
+      "width": 768,
+      "height": 1344,
+      "num_inference_steps": 20,
+      "seed": 100
+    }
+  }
+]

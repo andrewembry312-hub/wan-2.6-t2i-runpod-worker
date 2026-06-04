@@ -1,18 +1,29 @@
-# elabs / Wan 2.6 T2I — Text-to-Image Generation
+# elabs / Wan 2.6 Text-to-Image
 
-[![Run on RunPod](https://runpod.io/badge/runpod-hub)](https://runpod.io/console/hub)
+[![Deploy on RunPod](https://img.shields.io/badge/RunPod-Deploy-orange?logo=runpod)](https://console.runpod.io/hub)
+[![CUDA 12.4](https://img.shields.io/badge/CUDA-12.4-green)](https://developer.nvidia.com/cuda-toolkit)
+[![Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue)](https://opensource.org/licenses/Apache-2.0)
 
-High-quality **text-to-image** generation powered by **Wan 2.6**. Advanced prompt understanding, multiple aspect ratios, style control, and fast generation. Weights baked into the Docker image — no network volume or cold-download delays.
+**Text-to-image generation** with Wan 2.6 -- a 2.6B parameter transformer model. High-quality, detail-rich images in multiple aspect ratios up to 2048x2048.
+
+![Wan T2I](https://pub-796a08821c1c483aaf5e274e0d03e350.r2.dev/hub-icons/wan-t2i.svg)
 
 ## Highlights
 
-- **2.6B parameters** — excellent prompt understanding and image quality
-- **Multi-aspect ratio support**: square, portrait, landscape (up to 2048px)
-- **Style control** via prompt engineering and guidance scale tuning
-- **Seed control** for reproducible generations
-- **Weights baked in** — no cold-download delays
-- **8GB+ VRAM required**
-- **Apache-2.0** licensed
+- 2.6B parameters -- high-quality, detail-rich generation
+- Native 2048x2048 -- full resolution without upscaling
+- Fast draft mode -- 20 steps for rapid iteration
+- Multiple aspect ratios -- 1:1, 16:9, 9:16, 4:3
+- Weights baked in -- no network volume, instant cold start
+
+## Quick Start
+
+```bash
+curl -X POST https://api.runpod.ai/v2/{ENDPOINT_ID}/run \
+  -H "Authorization: Bearer $RUNPOD_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"input": {"prompt": "A sunset over misty mountains, oil painting style"}}'
+```
 
 ## API
 
@@ -21,13 +32,13 @@ High-quality **text-to-image** generation powered by **Wan 2.6**. Advanced promp
 ```json
 {
   "input": {
-    "prompt": "a serene mountain landscape at sunset, photorealistic",
-    "negative_prompt": "blurry, low quality",
+    "prompt": "A sunset over misty mountains, oil painting style",
+    "negative_prompt": "blurry, low quality, watermark",
     "width": 1024,
     "height": 1024,
     "num_inference_steps": 20,
-    "guidance_scale": 5.0,
-    "seed": -1
+    "guidance_scale": 7.5,
+    "seed": 42
   }
 }
 ```
@@ -37,9 +48,11 @@ High-quality **text-to-image** generation powered by **Wan 2.6**. Advanced promp
 ```json
 {
   "image_b64": "<base64 PNG>",
-  "prompt": "a serene mountain landscape at sunset, photorealistic",
-  "seed": 374969113,
-  "wall_time_s": 3.2
+  "prompt": "A sunset over misty mountains, oil painting style",
+  "seed": 42,
+  "width": 1024,
+  "height": 1024,
+  "wall_time_s": 4.5
 }
 ```
 
@@ -47,29 +60,28 @@ High-quality **text-to-image** generation powered by **Wan 2.6**. Advanced promp
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
-| `prompt` | string | **required** | Text prompt |
-| `negative_prompt` | string | `""` | Negative prompt |
-| `width` | int | `1024` | Output width (512–2048, multiples of 64) |
-| `height` | int | `1024` | Output height (512–2048, multiples of 64) |
-| `num_inference_steps` | int | `20` | Denoising steps (10 = ultra-fast, 50 = quality) |
-| `guidance_scale` | float | `5.0` | CFG guidance scale (1.0–20.0) |
-| `seed` | int | `null` | Fixed seed for reproducibility (`-1` or `null` = random) |
+| `prompt` | string | required | Text description of the image |
+| `negative_prompt` | string | `""` | Elements to exclude |
+| `width` | int | `1024` | Width (256-2048, multiple of 64) |
+| `height` | int | `1024` | Height (256-2048, multiple of 64) |
+| `num_inference_steps` | int | `20` | Steps (20=fast, 50=quality) |
+| `guidance_scale` | float | `7.5` | Prompt adherence (1.0-20.0) |
+| `seed` | int | random | Seed (-1 = random) |
 
 ## GPU Requirements
 
-- **Recommended**: RTX 4090 / RTX 6000 Ada / L40S / A5000
-- **Minimum**: Any GPU with ≥8GB VRAM (RTX 3080, A5000, L4, etc.)
-- **CUDA**: 12.0+
+- Minimum: >=8GB VRAM
+- Recommended: RTX 4090, L40S, A5000 (>=16GB)
+- CUDA: 12.4+
 
-## Benchmark
+## Benchmarks
 
-| GPU | Steps | Resolution | Time |
-|---|---|---|---|
-| RTX 4090 | 20 | 1024×1024 | ~3.2s |
-| RTX 4090 | 50 | 1024×1024 | ~7.5s |
-| RTX A5000 | 20 | 1024×1024 | ~5.0s |
-| L40S | 50 | 1024×1024 | ~6.0s |
+| GPU | 1024x1024 @20 steps | 1024x1024 @50 steps |
+|---|---|---|
+| RTX 4090 | ~3s | ~7s |
+| L40S | ~4s | ~10s |
+| A5000 | ~6s | ~15s |
 
 ## License
 
-Apache-2.0
+Apache-2.0. Based on [Wan-AI/Wan2.1](https://huggingface.co/Wan-AI).
