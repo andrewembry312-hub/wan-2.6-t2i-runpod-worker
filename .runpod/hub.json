@@ -2,7 +2,6 @@
   "title": "elabs / Wan 2.6 T2I",
   "description": "Wan 2.6 text-to-image with advanced prompt understanding and high-quality output. Supports multiple aspect ratios, style control, and fast generation. API: POST JSON with {prompt, negative_prompt, width, height, num_inference_steps, guidance_scale, seed} -> {image_b64, prompt, seed, wall_time_s}. GPU: requires >=8GB VRAM (RTX 4090, L40S, A5000+). Based on the Wan 2.6 architecture with enhanced transformer backbone, 2.6B parameters, and native resolution support up to 2048x2048. Runs entirely on RunPod serverless with weights baked into the Docker image.",
   "type": "serverless",
-  "task": "text-to-image",
   "category": "image",
   "config": {
     "runsOn": "GPU",
